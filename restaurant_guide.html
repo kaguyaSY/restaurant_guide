@@ -709,14 +709,34 @@
         link: 'https://darumanet.com/',
         gmaps: 'https://maps.google.com/?cid=1040080943694950848',
         pet_note: ''
+      },
+      {
+        num: '⑧', lat: 35.246711, lng: 139.151577, color: '#6b3a2a', pet: false,
+        name: 'ロフィチーナ デル チーボ',
+        sub: 'イタリアン ／ 大正建築・暖炉 ／ 小田原市南町',
+        price: '¥3,000〜¥5,500/人',
+        time: '約35〜45分',
+        link: 'https://tabelog.com/kanagawa/A1409/A140901/14012014/',
+        gmaps: 'https://maps.google.com/?cid=9519979291264680878',
+        pet_note: ''
+      },
+      {
+        num: '⑨', lat: 35.2734201, lng: 139.1812085, color: '#1a4a6a', pet: false,
+        name: 'ビストロ ルパ（Le Bistro Repas）',
+        sub: 'ビストロ・フレンチ ／ 完全予約制 ／ 鴨宮',
+        price: '¥4,000〜¥4,999/人',
+        time: '約25〜35分',
+        link: 'https://tabelog.com/kanagawa/A1409/A140901/14055673/',
+        gmaps: 'https://maps.google.com/?cid=14218399791234261879',
+        pet_note: ''
       }
     ];
 
     var allBounds = [originLatLng];
     restaurants.forEach(function(r) {
-      var icon = makeIcon(r.color, r.num.replace(/[①②③④⑤⑥⑦]/, function(c) {
-        return ['①','②','③','④','⑤','⑥','⑦'].indexOf(c) + 1;
-      }), r.pet ? 40 : 36);
+      var numMap = {'①':1,'②':2,'③':3,'④':4,'⑤':5,'⑥':6,'⑦':7,'⑧':8,'⑨':9};
+      var numStr = numMap[r.num] ? String(numMap[r.num]) : r.num;
+      var icon = makeIcon(r.color, numStr, r.pet ? 40 : 36);
       var petHtml = r.pet ? '<div style="background:#fff8e7;border:1px solid #d4a93c;border-radius:3px;padding:4px 8px;margin-top:6px;font-size:11px;color:#8b6f00">' + r.pet_note + '</div>' : '';
       var popup = '<div style="font-family:\'Noto Sans JP\',sans-serif;min-width:210px;line-height:1.5">'
         + '<b style="font-size:13px;color:#1a1410">' + r.num + ' ' + r.name + '</b>'
@@ -788,6 +808,20 @@
         <div>
           <div class="shortcut-name">だるま料理店</div>
           <div class="shortcut-time">🚗 約35〜45分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/35.246711,139.151577" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">⑧</span>
+        <div>
+          <div class="shortcut-name">ロフィチーナ デル チーボ</div>
+          <div class="shortcut-time">🚗 約35〜45分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/35.2734201,139.1812085" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">⑨</span>
+        <div>
+          <div class="shortcut-name">ビストロ ルパ</div>
+          <div class="shortcut-time">🚗 約25〜35分</div>
         </div>
       </a>
     </div>
@@ -1209,6 +1243,126 @@
     </div>
   </div>
 
+  <!-- CARD 7 end, new cards 8 & 9 -->
+
+  <!-- ===== SECTION: 小田原エリア（イタリアン・ビストロ）追加2店 ===== -->
+  <p class="section-title">新規追加店舗</p>
+
+  <!-- CARD 8 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">8</div>
+      <div class="card-title-group">
+        <div class="card-name">ロフィチーナ デル チーボ（L'OFFICINA DEL CIBO）</div>
+        <div class="card-genre">イタリアン ／ 大正建築・暖炉 ／ 小田原市南町</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（週末ディナー LO 21:00）</span>
+      <span class="tag tag-price">💰 ¥3,000〜¥5,500 / 人</span>
+      <span class="tag tag-drive">🚗 約35〜45分</span>
+      <span class="tag tag-rating">⭐ 4.5（Google・44件）</span>
+      <span class="tag tag-closed">🗓 月・木曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">ランチコース <strong>¥3,300〜</strong><br>ディナーコース <strong>¥5,500〜</strong><br>（ディナー夜) ¥3,000〜¥3,999（食べログ目安）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">週末ディナー 18:00〜21:00（LO）<br>※平日ディナーは6名以上の貸切のみ<br>要予約（Instagram DM: @lofficina_del_cibo）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市南町3-2-53<br>（箱根板橋駅 約630m）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-24-3552">0465-24-3552</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">16席・貸切可（6名以上）<br>駐車場あり・禁煙</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">月曜日・木曜日</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        大正時代建築をリノベーションした重厚な暖炉が迎えるアンティーク空間。イタリア語で「料理工房」を意味する店名の通り、夫婦で営む隠れ家的イタリアン。国道1号沿いで車でのアクセスも良好。片道3時間かけて訪れる常連客も多い名店。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>注意：</strong>ディナーは週末のみ（平日は6名以上貸切のみ）。要予約。<strong>ペット同伴：</strong>記載なし。要確認。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://tabelog.com/kanagawa/A1409/A140901/14012014/" target="_blank" class="btn btn-primary">🌐 食べログ</a>
+      <a href="https://www.instagram.com/lofficina_del_cibo/" target="_blank" class="btn btn-reserve">📸 Instagram（予約DM）</a>
+      <a href="https://maps.google.com/?cid=9519979291264680878" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- CARD 9 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">9</div>
+      <div class="card-title-group">
+        <div class="card-name">ビストロ ルパ（Le Bistro Repas）</div>
+        <div class="card-genre">ビストロ・フレンチ ／ 完全予約制 ／ 鴨宮</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（LO 21:00）</span>
+      <span class="tag tag-price">💰 ¥4,000〜¥4,999 / 人</span>
+      <span class="tag tag-drive">🚗 約25〜35分</span>
+      <span class="tag tag-rating">⭐ 4.4（Google・235件）</span>
+      <span class="tag tag-closed">🗓 火曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">ディナーコース <strong>¥4,730</strong> / <strong>¥6,050</strong><br>4名以上コース ¥3,630〜<br>飲み放題付き ¥5,300〜¥7,480</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">ランチ 11:30〜14:00（LO）<br>ディナー 17:30〜21:00（LO）<br>完全予約制</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市南鴨宮3-37-24<br>天勇ビル2F（鴨宮駅南口 徒歩2分）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-42-9298">0465-42-9298</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">4人席×5・2人席×2（計約26席）<br>完全予約制・個室なし<br>駐車場2台（近隣ヨークマート利用可）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">火曜日（第2水曜日も休業の場合あり）</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        パリのビストロで修業したシェフが地元小田原の鮮魚・野菜を使ったボリューミーなフレンチを提供。緑を基調とした落ち着いたおしゃれな内装。オープンキッチンから漂う仕込みの香りが食欲をそそる。地元民に長年愛される完全予約制の隠れ名店。自家製パンのおかわり自由が好評。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。ビル2階の室内のためペット不可と思われます。完全予約制のため必ず事前予約を。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://tabelog.com/kanagawa/A1409/A140901/14055673/" target="_blank" class="btn btn-primary">🌐 食べログ</a>
+      <a href="https://maps.google.com/?cid=14218399791234261879" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
   <!-- ===== SUMMARY TABLE ===== -->
   <p class="section-title">一覧比較まとめ</p>
   <div style="overflow-x:auto;">
@@ -1295,6 +1449,26 @@
           <td class="pet-no">❓ 不明</td>
           <td>○（座敷）</td>
           <td>水曜</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>ロフィチーナ デル チーボ</strong><br><span style="font-size:10px; color:#6b5f52;">大正建築・暖炉</span></td>
+          <td>イタリアン</td>
+          <td>¥3,000〜¥5,500</td>
+          <td><span class="time-badge">約35〜45分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>貸切可（6名〜）</td>
+          <td>月・木曜</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>ビストロ ルパ</strong><br><span style="font-size:10px; color:#6b5f52;">Le Bistro Repas</span></td>
+          <td>ビストロ・フレンチ</td>
+          <td>¥4,730〜¥7,480</td>
+          <td><span class="time-badge">約25〜35分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>なし（完全予約）</td>
+          <td>火曜</td>
         </tr>
       </tbody>
     </table>
