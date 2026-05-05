@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍽️ ディナー候補店舗まとめ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #faf7f2;
+    --cream: #f2ece0;
+    --gold: #b8902a;
+    --gold-light: #d4a93c;
+    --rust: #8b4513;
+    --sage: #5a6e52;
+    --muted: #6b5f52;
+    --border: #d9cfc0;
+    --pet-bg: #fff8e7;
+    --pet-border: #d4a93c;
+    --warning-bg: #f9f3f0;
+    --warning-border: #c8a48a;
+    --card-shadow: 0 2px 16px rgba(26,20,16,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(184,144,42,0.04) 20px,
+      rgba(184,144,42,0.04) 21px
+    );
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .header-eyebrow {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  header h1 span { color: var(--gold-light); }
+  .header-sub {
+    font-size: 12px;
+    color: rgba(250,247,242,0.6);
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
+  .header-divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 16px auto;
+  }
+
+  /* ===== LEGEND / META ===== */
+  .meta-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-item .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-pet { background: var(--gold); }
+  .dot-ok { background: var(--sage); }
+  .dot-check { background: #c8a48a; }
+
+  /* ===== ORIGIN BADGE ===== */
+  .origin-section {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .origin-pin {
+    background: var(--rust);
+    color: white;
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .origin-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ===== MAIN CONTAINER ===== */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-top: 32px;
+  }
+
+  /* ===== CARD ===== */
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 24px rgba(26,20,16,0.13); }
+
+  .card-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--cream);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--border);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .card-title-group { flex: 1; min-width: 0; }
+  .card-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .card-genre {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--cream);
+  }
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .tag-time { background: #e8f0e8; color: var(--sage); border: 1px solid #c5d5c5; }
+  .tag-price { background: #f0eae0; color: var(--rust); border: 1px solid #d9c9b8; }
+  .tag-drive { background: #e8e4f0; color: #5a4a7a; border: 1px solid #c8bfe0; }
+  .tag-pet { background: var(--pet-bg); color: #8b6f00; border: 1px solid var(--pet-border); }
+  .tag-private { background: #e0e8f0; color: #2a5070; border: 1px solid #b8cce0; }
+  .tag-closed { background: #f0e8e8; color: #7a2a2a; border: 1px solid #d9b8b8; }
+  .tag-rating { background: #fff8e0; color: #7a6000; border: 1px solid #e0c850; }
+
+  .card-body {
+    padding: 16px 20px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 520px) {
+    .info-grid { grid-template-columns: 1fr; gap: 8px; }
+  }
+  .info-item {}
+  .info-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 3px;
+    font-family: 'Noto Serif JP', serif;
+  }
+  .info-value {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .info-value a {
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rust);
+  }
+  .info-value a:hover { border-bottom-style: solid; }
+
+  /* ===== PET NOTICE ===== */
+  .pet-notice {
+    background: var(--pet-bg);
+    border: 1px solid var(--pet-border);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #6b5000;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .pet-notice-icon { font-size: 16px; flex-shrink: 0; margin-top: -1px; }
+  .pet-notice p { line-height: 1.5; }
+
+  /* ===== WARNING / CAUTION ===== */
+  .caution-notice {
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #5a3a2a;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .caution-notice p { line-height: 1.5; }
+
+  /* ===== SEAT INFO ===== */
+  .seat-info {
+    font-size: 12.5px;
+    color: var(--muted);
+    background: var(--cream);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    line-height: 1.6;
+    border-left: 3px solid var(--border);
+  }
+
+  /* ===== LINK BUTTONS ===== */
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 20px 16px;
+    border-top: 1px solid var(--cream);
+    background: var(--paper);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    border: 1px solid;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+  .btn-primary:hover { background: var(--rust); border-color: var(--rust); }
+  .btn-maps {
+    background: white;
+    color: #1a73e8;
+    border-color: #a8c7fa;
+  }
+  .btn-maps:hover { background: #e8f0fe; }
+  .btn-reserve {
+    background: white;
+    color: var(--sage);
+    border-color: #a8c8a8;
+  }
+  .btn-reserve:hover { background: #e8f0e8; }
+
+  /* ===== SUMMARY TABLE ===== */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .summary-table th {
+    background: var(--ink);
+    color: var(--gold-light);
+    padding: 8px 12px;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+    text-align: left;
+  }
+  .summary-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--cream);
+    vertical-align: middle;
+    color: var(--ink);
+  }
+  .summary-table tr:nth-child(even) td { background: var(--paper); }
+  .summary-table tr:hover td { background: #f5f0e8; }
+  .pet-yes { color: #8b6f00; font-weight: 700; }
+  .pet-no { color: var(--muted); }
+  .time-badge {
+    display: inline-block;
+    background: #e8e4f0;
+    color: #5a4a7a;
+    border-radius: 2px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    background: var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== MAP SECTION ===== */
+  .map-section {
+    background: var(--ink);
+    border-bottom: 4px solid var(--gold);
+  }
+  .map-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .map-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .map-header-icon { font-size: 22px; }
+  .map-header-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--paper);
+    letter-spacing: 0.05em;
+  }
+  .map-header-sub {
+    font-size: 11px;
+    color: rgba(250,247,242,0.5);
+    margin-top: 2px;
+  }
+  .btn-open-maps {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .btn-open-maps:hover { background: var(--gold-light); }
+
+  .map-embed-wrapper {
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .map-overlay-legend {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(26,20,16,0.88);
+    border: 1px solid rgba(184,144,42,0.4);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--paper);
+    backdrop-filter: blur(4px);
+    min-width: 140px;
+  }
+  .map-legend-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-dot.origin { background: #e03030; border: 2px solid #ff6060; }
+  .legend-dot.pet { background: var(--gold); }
+  .legend-dot.normal { background: #4a9eff; }
+
+  /* ===== MAP SHORTCUTS ===== */
+  .map-shortcuts {
+    padding: 16px 20px 20px;
+  }
+  .map-shortcuts-label {
+    font-size: 11px;
+    color: rgba(250,247,242,0.55);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Noto Serif JP', serif;
+    margin-bottom: 12px;
+  }
+  .map-shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+  }
+  .shortcut-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 4px;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: var(--paper);
+    transition: all 0.15s;
+  }
+  .shortcut-btn:hover {
+    background: rgba(184,144,42,0.15);
+    border-color: rgba(184,144,42,0.4);
+  }
+  .shortcut-btn.shortcut-pet {
+    border-color: rgba(184,144,42,0.35);
+    background: rgba(184,144,42,0.08);
+  }
+  .shortcut-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold-light);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+  }
+  .shortcut-name {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--paper);
+  }
+  .shortcut-time {
+    font-size: 10px;
+    color: rgba(250,247,242,0.5);
+    margin-top: 2px;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 520px) {
+    .card-header { flex-direction: row; }
+    .card-num { font-size: 22px; width: 22px; }
+    .card-name { font-size: 15px; }
+    .info-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 20px; }
+    .map-shortcuts-grid { grid-template-columns: 1fr 1fr; }
+    .map-overlay-legend { display: none; }
+    .map-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <p class="header-eyebrow">Dinner Guide 2025</p>
+    <h1>🍽️ 候補店舗 <span>まとめ</span></h1>
+    <div class="header-divider"></div>
+    <p style="font-size:13px; color:rgba(250,247,242,0.8);">大人4名 ／ 18:30 来店 ／ 小田原・秦野・松田エリア</p>
+    <p class="header-sub">神奈川県秦野市堀西978-11 からの車での所要時間付き</p>
+  </div>
+</header>
+
+<div class="origin-section">
+  <div class="origin-pin">📍</div>
+  <div>
+    <div class="origin-text">出発地：<strong>神奈川県秦野市堀西978-11</strong></div>
+    <div style="font-size:11px; margin-top:2px;">各所要時間は平常時の目安。渋滞・時間帯により変動あり。</div>
+  </div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot dot-pet"></span>ペット同伴情報あり</div>
+  <div class="meta-item"><span class="dot dot-ok"></span>18:30 入店OK</div>
+  <div class="meta-item"><span class="dot dot-check"></span>要確認事項あり</div>
+</div>
+
+<!-- ===== EMBEDDED MAP SECTION ===== -->
+<div class="map-section">
+  <div class="map-header">
+    <div class="map-header-inner">
+      <span class="map-header-icon">🗺️</span>
+      <div>
+        <div class="map-header-title">候補店舗マップ</div>
+        <div class="map-header-sub">📍 赤ピン = 出発地（秦野市堀西978-11）／ 番号ピン = 各候補店舗</div>
+      </div>
+    </div>
+    <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/35.2069458,139.1322191/35.36234950000001,139.2194139/35.24084740000001,139.14857469999998/35.3730386,139.2250177/35.3449236,139.1410687/35.250193599999996,139.1633119/35.251336699999996,139.1595275" target="_blank" class="btn-open-maps">
+      ↗ Google マップで全ルートを開く
+    </a>
+  </div>
+
+  <!-- Interactive Map with Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <div class="map-embed-wrapper">
+    <div id="map" style="width:100%; height:480px; display:block;"></div>
+    <div class="map-overlay-legend">
+      <div class="map-legend-title">凡例</div>
+      <div class="map-legend-item"><span class="legend-dot origin"></span>出発地（堀西978-11）</div>
+      <div class="map-legend-item"><span class="legend-dot pet"></span>🐾 フローラ（ペットOK）</div>
+      <div class="map-legend-item"><span class="legend-dot normal"></span>その他6店舗</div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+  (function() {
+    var map = L.map('map', { zoomControl: true, scrollWheelZoom: false });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Custom icon factory
+    function makeIcon(color, label, size) {
+      size = size || 36;
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + (size*1.3) + '" viewBox="0 0 36 47">'
+        + '<path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 29 18 29S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="' + color + '" stroke="white" stroke-width="2"/>'
+        + '<circle cx="18" cy="17" r="11" fill="white" fill-opacity="0.22"/>'
+        + '<text x="18" y="22" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="bold" fill="white">' + label + '</text>'
+        + '</svg>';
+      return L.divIcon({
+        html: svg,
+        className: '',
+        iconSize: [size, size*1.3],
+        iconAnchor: [size/2, size*1.3],
+        popupAnchor: [0, -(size*1.3)]
+      });
+    }
+
+    // Origin marker — red with home icon
+    var originSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="42" height="55" viewBox="0 0 42 55">'
+      + '<path d="M21 0C9.4 0 0 9.4 0 21c0 15.75 21 34 21 34S42 36.75 42 21C42 9.4 32.6 0 21 0z" fill="#cc2222" stroke="white" stroke-width="2.5"/>'
+      + '<circle cx="21" cy="20" r="12" fill="white" fill-opacity="0.18"/>'
+      + '<text x="21" y="15" text-anchor="middle" font-size="12" fill="white">📍</text>'
+      + '<text x="21" y="27" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="bold" fill="white">出発地</text>'
+      + '</svg>';
+    var originIcon = L.divIcon({ html: originSvg, className: '', iconSize: [42, 55], iconAnchor: [21, 55], popupAnchor: [0, -55] });
+
+    var originLatLng = [35.3813, 139.2168]; // 秦野市堀西978-11
+    L.marker(originLatLng, { icon: originIcon })
+      .addTo(map)
+      .bindPopup('<div style="font-family:sans-serif;min-width:180px"><b style="color:#cc2222">📍 出発地</b><br><span style="font-size:12px">神奈川県秦野市堀西978-11</span><br><a href="https://www.google.com/maps/search/神奈川県秦野市堀西978-11" target="_blank" style="font-size:11px;color:#1a73e8">Google マップで開く ↗</a></div>', { maxWidth: 260 });
+
+    // Restaurant markers
+    var restaurants = [
+      {
+        num: '①', lat: 35.2069, lng: 139.1322, color: '#b8902a', pet: true,
+        name: 'ブラッセリー フローラ（ヒルトン）',
+        sub: 'ビュッフェ・コース ／ 根府川',
+        price: '¥7,400〜/人',
+        time: '約35〜45分',
+        link: 'https://odawara.hiltonjapan.co.jp/restaurants/flora',
+        gmaps: 'https://maps.google.com/?cid=16633866532365931842',
+        pet_note: '🐾 テラス席ペットOK'
+      },
+      {
+        num: '②', lat: 35.3623, lng: 139.2194, color: '#5a6e52', pet: false,
+        name: "L'atelier de 巣邸樹",
+        sub: '創作フレンチ ／ 完全予約制 ／ 秦野',
+        price: '¥3,872〜¥6,380/人',
+        time: '約10〜15分',
+        link: 'https://www.suteiju.com',
+        gmaps: 'https://maps.google.com/?cid=9838019881860769773',
+        pet_note: ''
+      },
+      {
+        num: '③', lat: 35.2408, lng: 139.1486, color: '#2a6070', pet: false,
+        name: 'わらべ菜魚洞',
+        sub: '海鮮食堂 ／ 早川漁港',
+        price: '¥2,000〜¥3,000/人',
+        time: '約30〜40分',
+        link: 'https://www.warabe.jp/warabesaigyodo/',
+        gmaps: 'https://maps.google.com/?cid=8520789718463557331',
+        pet_note: ''
+      },
+      {
+        num: '④', lat: 35.3730, lng: 139.2250, color: '#5a4a7a', pet: false,
+        name: 'Organic restaurant SOL',
+        sub: 'オーガニックフレンチ ／ 秦野',
+        price: '¥5,500〜¥6,600/人',
+        time: '約10〜15分',
+        link: 'https://gdab104.gorp.jp/',
+        gmaps: 'https://maps.google.com/?cid=8023618854793975196',
+        pet_note: ''
+      },
+      {
+        num: '⑤', lat: 35.3449, lng: 139.1411, color: '#7a3030', pet: false,
+        name: 'チェルト ホノボーノ',
+        sub: '薪窯イタリアン ／ 松田町',
+        price: '¥3,000〜¥3,999/人',
+        time: '約20〜25分',
+        link: 'https://tabelog.com/kanagawa/A1409/A140902/14010951/',
+        gmaps: 'https://maps.google.com/?cid=3735417193782702987',
+        pet_note: ''
+      },
+      {
+        num: '⑥', lat: 35.2502, lng: 139.1633, color: '#2a5050', pet: false,
+        name: '小田原おでん本店',
+        sub: 'おでん専門 ／ ミシュランビブグルマン',
+        price: '¥990〜¥7,500/人',
+        time: '約35〜45分',
+        link: 'https://odawaraoden.com/odawaraoden/xiao_tian_yuanoden_ben_dianheyoukoso.html',
+        gmaps: 'https://maps.google.com/?cid=10524412165182366263',
+        pet_note: ''
+      },
+      {
+        num: '⑦', lat: 35.2513, lng: 139.1595, color: '#4a3a1a', pet: false,
+        name: 'だるま料理店',
+        sub: '日本料理 ／ 明治26年創業 ／ 文化財',
+        price: '¥5,000〜/人',
+        time: '約35〜45分',
+        link: 'https://darumanet.com/',
+        gmaps: 'https://maps.google.com/?cid=1040080943694950848',
+        pet_note: ''
+      }
+    ];
+
+    var allBounds = [originLatLng];
+    restaurants.forEach(function(r) {
+      var icon = makeIcon(r.color, r.num.replace(/[①②③④⑤⑥⑦]/, function(c) {
+        return ['①','②','③','④','⑤','⑥','⑦'].indexOf(c) + 1;
+      }), r.pet ? 40 : 36);
+      var petHtml = r.pet ? '<div style="background:#fff8e7;border:1px solid #d4a93c;border-radius:3px;padding:4px 8px;margin-top:6px;font-size:11px;color:#8b6f00">' + r.pet_note + '</div>' : '';
+      var popup = '<div style="font-family:\'Noto Sans JP\',sans-serif;min-width:210px;line-height:1.5">'
+        + '<b style="font-size:13px;color:#1a1410">' + r.num + ' ' + r.name + '</b>'
+        + '<div style="font-size:11px;color:#6b5f52;margin:2px 0 6px">' + r.sub + '</div>'
+        + '<div style="font-size:12px;margin-bottom:2px">💰 ' + r.price + '</div>'
+        + '<div style="font-size:12px;margin-bottom:6px">🚗 出発地より ' + r.time + '</div>'
+        + petHtml
+        + '<div style="margin-top:8px;display:flex;gap:6px">'
+        + '<a href="' + r.link + '" target="_blank" style="font-size:11px;background:#1a1410;color:white;padding:4px 9px;border-radius:3px;text-decoration:none">公式サイト</a>'
+        + '<a href="' + r.gmaps + '" target="_blank" style="font-size:11px;background:#1a73e8;color:white;padding:4px 9px;border-radius:3px;text-decoration:none">Google マップ</a>'
+        + '<a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/' + r.lat + ',' + r.lng + '" target="_blank" style="font-size:11px;background:#e8f0fe;color:#1a73e8;padding:4px 9px;border-radius:3px;text-decoration:none">ルート</a>'
+        + '</div></div>';
+      var m = L.marker([r.lat, r.lng], { icon: icon }).addTo(map).bindPopup(popup, { maxWidth: 280 });
+      allBounds.push([r.lat, r.lng]);
+    });
+
+    map.fitBounds(allBounds, { padding: [40, 40] });
+  })();
+  </script>
+
+  <!-- Shortcut links to Google Maps directions from origin -->
+  <div class="map-shortcuts">
+    <div class="map-shortcuts-label">🚗 出発地からのルート（Google マップで開く）</div>
+    <div class="map-shortcuts-grid">
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/ヒルトン小田原リゾートスパ+ブラッセリーフローラ/@35.28,139.17,11z/data=!4m9!4m8!1m5!1m1!1s0x6017b3e0e24d2f3b:0x0!2m2!1d139.218!2d35.382!1m1!1s0x601765d78826e4f3:0xe7d67d5b89ee552" target="_blank" class="shortcut-btn shortcut-pet">
+        <span class="shortcut-num">①</span>
+        <div>
+          <div class="shortcut-name">フローラ（ヒルトン）</div>
+          <div class="shortcut-time">🚗 約35〜45分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/ラトリエ+ドゥ+スティジュ+秦野/@35.37,139.22,13z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">②</span>
+        <div>
+          <div class="shortcut-name">L'atelier de 巣邸樹</div>
+          <div class="shortcut-time">🚗 約10〜15分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/わらべ菜魚洞/@35.31,139.18,11z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">③</span>
+        <div>
+          <div class="shortcut-name">わらべ菜魚洞</div>
+          <div class="shortcut-time">🚗 約30〜40分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/Organic+restaurant+SOL+秦野/@35.38,139.22,13z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">④</span>
+        <div>
+          <div class="shortcut-name">Organic restaurant SOL</div>
+          <div class="shortcut-time">🚗 約10〜15分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/チェルトホノボーノ+松田/@35.36,139.18,12z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">⑤</span>
+        <div>
+          <div class="shortcut-name">チェルト ホノボーノ</div>
+          <div class="shortcut-time">🚗 約20〜25分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/小田原おでん本店/@35.31,139.19,11z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">⑥</span>
+        <div>
+          <div class="shortcut-name">小田原おでん本店</div>
+          <div class="shortcut-time">🚗 約35〜45分</div>
+        </div>
+      </a>
+      <a href="https://www.google.com/maps/dir/神奈川県秦野市堀西978-11/だるま料理店+小田原/@35.31,139.18,11z" target="_blank" class="shortcut-btn">
+        <span class="shortcut-num">⑦</span>
+        <div>
+          <div class="shortcut-name">だるま料理店</div>
+          <div class="shortcut-time">🚗 約35〜45分</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===== CARD 1 ===== -->
+  <p class="section-title">★ ペット同伴テラス席あり</p>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div class="card-title-group">
+        <div class="card-name">ブラッセリー フローラ（ヒルトン小田原リゾート&スパ）</div>
+        <div class="card-genre">オールデイダイニング ／ ビュッフェ・コース ／ 根府川</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-pet">🐾 テラス席ペットOK</span>
+      <span class="tag tag-time">✅ 18:30 入店可（LO 21:00〜21:30）</span>
+      <span class="tag tag-price">💰 7,400円〜 / 人（ビュッフェ）</span>
+      <span class="tag tag-drive">🚗 約35〜45分</span>
+      <span class="tag tag-rating">⭐ 3.8（Google）</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">ディナービュッフェ <strong>¥7,400/人</strong>（税サ込、90分制）<br>GW期間（4/29〜5/5）は ¥8,050/人<br>初夏コースディナー（5/12〜）別途あり</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">平日 17:15〜21:00（LO 21:00）<br>土日祝 17:15〜21:30（LO 21:30）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市根府川583-1<br>ヒルトン小田原1F</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-28-1220">0465-28-1220</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">メインダイニング・セミプライベート・個室1室・テラス席</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">なし（年中無休）</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        クロマツや寄木など地元の要素を取り入れたコンテンポラリーなインテリア。相模湾を望む大窓が特徴。テラス席はドッグフレンドリー席として屋外に設置。
+      </div>
+      <div class="pet-notice">
+        <div class="pet-notice-icon">🐾</div>
+        <p><strong>ペット同伴OK（テラス席のみ）</strong> — フローラとザ・ロビーラウンジのテラス席でドッグフレンドリー席を用意。屋外のため天候により席の状況が変わる場合あり。予約時に要事前確認。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://odawara.hiltonjapan.co.jp/restaurants/flora" target="_blank" class="btn btn-primary">🌐 公式サイト</a>
+      <a href="https://www.tablecheck.com/ja/hiltonodawara-flora/reserve" target="_blank" class="btn btn-reserve">📅 予約（TableCheck）</a>
+      <a href="https://maps.google.com/?cid=16633866532365931842" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <p class="section-title">秦野エリア（出発地近く）</p>
+
+  <!-- CARD 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <div class="card-title-group">
+        <div class="card-name">L'atelier de 巣邸樹（らとりえ どぅ すていじゅ）</div>
+        <div class="card-genre">創作フレンチ ／ 完全予約制 ／ 秦野市</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（ディナー 18:00〜21:00）</span>
+      <span class="tag tag-price">💰 ¥3,872〜¥6,380 / 人</span>
+      <span class="tag tag-drive">🚗 約10〜15分</span>
+      <span class="tag tag-rating">⭐ 4.4（Google）</span>
+      <span class="tag tag-closed">🗓 水曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">コース価格</div>
+          <div class="info-value">コースA（魚か肉）<strong>¥3,872</strong><br>コースB（魚＋肉）<strong>¥4,950</strong><br>コースC（黒毛和牛）<strong>¥6,380</strong>（各税込）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">ランチ 12:00〜15:00<br>ディナー 18:00〜21:00<br>※完全予約制・前日まで</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県秦野市今泉台3-17-23</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0463-81-0417">0463-81-0417</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室</div>
+          <div class="info-value">なし（少人数制・完全予約）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">水曜日</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        秦野の土と水で育ったシェフが地元食材に徹底したこだわりを持つ一軒フレンチ。Tシャツ・短パン・サンダル等の軽装はご遠慮ください（ドレスコードあり）。落ち着いた大人の空間。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。ドレスコードあり・完全予約制の雰囲気からペット不可と思われます。来店前に確認推奨。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://www.suteiju.com" target="_blank" class="btn btn-primary">🌐 公式サイト</a>
+      <a href="https://maps.google.com/?cid=9838019881860769773" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <div class="card-title-group">
+        <div class="card-name">Organic restaurant SOL（オーガニックレストランソル）</div>
+        <div class="card-genre">オーガニックフレンチ ／ 古民家リノベ ／ 秦野市</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（LO 20:30）</span>
+      <span class="tag tag-price">💰 ¥5,500〜¥6,600 / 人</span>
+      <span class="tag tag-drive">🚗 約10〜15分</span>
+      <span class="tag tag-rating">⭐ 4.3（Google）</span>
+      <span class="tag tag-private">🚪 個室あり（2〜12名）</span>
+      <span class="tag tag-closed">🗓 月曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">コース価格</div>
+          <div class="info-value">SOLレギュラーコース <strong>¥5,500/人</strong><br>飲み放題付パーティーコース <strong>¥6,600/人</strong></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">ランチ 11:00〜14:30（LO 14:00）<br>ディナー 17:00〜21:30（LO 20:30）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県秦野市栄町1-13</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:050-5486-8072">050-5486-8072</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">テーブル個室1室（2〜12名・扉・壁あり）<br>フロア貸切も可（20〜66名）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">月曜日</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        築56年の古民家を北欧デザインでリノベーション。1階はオープンキッチン、2階は吹き抜けの天井が開放感たっぷり。ヴィンテージ家具×秦野産の材木の空間。2024年9月オープン。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。古民家室内のみのためペット不可と思われます。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://gdab104.gorp.jp/" target="_blank" class="btn btn-primary">🌐 公式（ぐるなび）</a>
+      <a href="https://restaurant.ikyu.com/147643" target="_blank" class="btn btn-reserve">📅 予約（一休）</a>
+      <a href="https://maps.google.com/?cid=8023618854793975196" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <p class="section-title">松田エリア</p>
+
+  <!-- CARD 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">5</div>
+      <div class="card-title-group">
+        <div class="card-name">チェルト ホノボーノ（CERTO Hono-Bono）</div>
+        <div class="card-genre">薪窯ピッツェリア・イタリアン ／ 松田町</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（LO 21:00）</span>
+      <span class="tag tag-price">💰 ¥3,000〜¥3,999 / 人</span>
+      <span class="tag tag-drive">🚗 約20〜25分</span>
+      <span class="tag tag-rating">⭐ 4.3（Google）</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">アラカルト中心<br>ディナー目安 <strong>¥3,000〜¥4,999/人</strong></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">ランチ 11:30〜14:00<br>ディナー 17:00〜22:00（LO 21:00）<br>日曜ディナー〜20:00</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県足柄上郡松田町松田惣領1156-1</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-82-5996">0465-82-5996</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">個室なし、カウンターなし<br>55席（1F・2F）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">なし（月〜日営業）</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        新松田駅徒歩2分の一軒家イタリアン。屋根裏の構造体を見せる2階の席が特徴。木のぬくもりがある温かい空間で薪窯焼きの本格ピザが評判。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。屋外スペースなしのためペット不可と思われます。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://tabelog.com/kanagawa/A1409/A140902/14010951/" target="_blank" class="btn btn-primary">🌐 食べログ</a>
+      <a href="https://maps.google.com/?cid=3735417193782702987" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <p class="section-title">小田原エリア（海鮮・おでん・老舗）</p>
+
+  <!-- CARD 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <div class="card-title-group">
+        <div class="card-name">わらべ菜魚洞（わらべさいぎょどう）</div>
+        <div class="card-genre">海鮮食堂 ／ 漁港直送 ／ 早川</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（LO 19:45）</span>
+      <span class="tag tag-price">💰 ¥2,000〜¥3,000 / 人（目安）</span>
+      <span class="tag tag-drive">🚗 約30〜40分</span>
+      <span class="tag tag-rating">⭐ 4.1（Google・1143件）</span>
+      <span class="tag tag-private">🚪 個室あり</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">海まかせ膳 <strong>¥2,948〜¥3,080</strong><br>海の幸五彩丼 ¥2,860<br>アラカルト各種</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">ランチ 11:30〜14:00<br>ディナー 17:00〜21:00（CLOSE）<br>LO 19:45 ／ 水曜夜定休</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市早川1-5-4<br>（早川漁港すぐ）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-22-4858">0465-22-4858</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">個室あり・禁煙<br>駐車場あり（20台）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">水曜日の夕方の部</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        小田原漁港徒歩30秒、1999年創業の地元人気店。毎朝港のセリに参加し最高鮮度の魚を仕入れる。アジフライが特に絶品との口コミ多数。ディナーは予約推奨。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。漁港食堂スタイルのためペット不可と思われます。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://www.warabe.jp/warabesaigyodo/" target="_blank" class="btn btn-primary">🌐 公式サイト</a>
+      <a href="https://maps.google.com/?cid=8520789718463557331" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">6</div>
+      <div class="card-title-group">
+        <div class="card-name">小田原おでん本店</div>
+        <div class="card-genre">おでん専門店 ／ 古民家 ／ ミシュランビブグルマン ／ 浜町</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（〜21:00）</span>
+      <span class="tag tag-price">💰 ¥990〜¥7,500 / 人</span>
+      <span class="tag tag-drive">🚗 約35〜45分</span>
+      <span class="tag tag-rating">⭐ 4.2（Google・1075件）</span>
+      <span class="tag tag-private">🚪 茶室（要前日予約）・はなれあり</span>
+      <span class="tag tag-closed">🗓 月曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">おまかせ5品 <strong>¥990</strong>〜<br>茶室会席「風琴」<strong>¥5,200</strong><br>茶室会席「水琴」<strong>¥7,500</strong></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">11:30〜21:00（平日中休みあり）<br>茶室 12:00〜21:00<br>※茶室は前日まで要予約</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市浜町3-11-30<br>（小田原かまぼこ通り）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-20-0320">0465-20-0320</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">カウンター15席・茶室6席（座敷）<br>はなれ「月の風音」15席（計46席）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">月曜日</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        老舗かまぼこ店13社のオリジナル練り物が味わえる地域の名物店。ミシュランガイドビブグルマン掲載。カウンター席で大将と会話しながらおでんを選ぶのが醍醐味。人気店のため予約必須。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。現金のみの支払いに注意。予約は平日のみ（ランチ不可）。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://odawaraoden.com/odawaraoden/xiao_tian_yuanoden_ben_dianheyoukoso.html" target="_blank" class="btn btn-primary">🌐 公式サイト</a>
+      <a href="https://maps.google.com/?cid=10524412165182366263" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- CARD 7 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">7</div>
+      <div class="card-title-group">
+        <div class="card-name">だるま料理店</div>
+        <div class="card-genre">日本料理 ／ 国登録有形文化財 ／ 明治26年創業 ／ 本町</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-time">✅ 18:30 入店可（LO 20:00）</span>
+      <span class="tag tag-price">💰 ¥5,000〜¥5,999 / 人</span>
+      <span class="tag tag-drive">🚗 約35〜45分</span>
+      <span class="tag tag-rating">⭐ 3.8（Google・2758件）</span>
+      <span class="tag tag-private">🚪 2階座敷・個室〜大広間</span>
+      <span class="tag tag-closed">🗓 水曜定休</span>
+    </div>
+    <div class="card-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">価格帯</div>
+          <div class="info-value">食堂（天丼・定食） <strong>〜¥3,500</strong><br>お座敷コース <strong>¥5,000〜</strong><br>天丼 ¥2,900 など</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">営業時間</div>
+          <div class="info-value">食堂・座敷 11:00〜21:00<br>食堂LO 20:00 ／ 座敷最終入席19:00</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">住所</div>
+          <div class="info-value">神奈川県小田原市本町2-1-30<br>（小田原城そば）</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">電話</div>
+          <div class="info-value"><a href="tel:0465-22-4128">0465-22-4128</a></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">個室・席</div>
+          <div class="info-value">1F 食堂（カジュアル）<br>2F 座敷（コース・着物でお迎え・椅子席も可）<br>個室〜大広間まで各種</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">定休日</div>
+          <div class="info-value">水曜日</div>
+        </div>
+      </div>
+      <div class="seat-info">
+        社寺建築を思わせる唐破風入母屋造りの建物は国の有形登録文化財。創業130年超の老舗が城下町・小田原で誇る天ぷらと地魚料理。食堂（1F）はカジュアル、座敷（2F）は着物でお出迎え。
+      </div>
+      <div class="caution-notice">
+        <div>⚠️</div>
+        <p><strong>ペット同伴：</strong>記載なし。文化財建築のためペット不可と思われます。座敷は食堂と異なりコース料理のみ。</p>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://darumanet.com/" target="_blank" class="btn btn-primary">🌐 公式サイト</a>
+      <a href="https://maps.google.com/?cid=1040080943694950848" target="_blank" class="btn btn-maps">📍 Google マップ</a>
+    </div>
+  </div>
+
+  <!-- ===== SUMMARY TABLE ===== -->
+  <p class="section-title">一覧比較まとめ</p>
+  <div style="overflow-x:auto;">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>店名</th>
+          <th>ジャンル</th>
+          <th>価格帯（/人）</th>
+          <th>所要時間</th>
+          <th>ペット</th>
+          <th>個室</th>
+          <th>定休</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>ブラッセリー フローラ</strong><br><span style="font-size:10px; color:#6b5f52;">ヒルトン小田原</span></td>
+          <td>ビュッフェ・コース</td>
+          <td>¥7,400〜</td>
+          <td><span class="time-badge">約35〜45分</span></td>
+          <td class="pet-yes">🐾 テラスOK</td>
+          <td>○（1室）</td>
+          <td>なし</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>L'atelier de 巣邸樹</strong></td>
+          <td>創作フレンチ</td>
+          <td>¥3,872〜¥6,380</td>
+          <td><span class="time-badge">約10〜15分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>なし</td>
+          <td>水曜</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>わらべ菜魚洞</strong></td>
+          <td>海鮮食堂</td>
+          <td>¥2,000〜¥3,000</td>
+          <td><span class="time-badge">約30〜40分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>○</td>
+          <td>水曜夜</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Organic restaurant SOL</strong></td>
+          <td>オーガニックフレンチ</td>
+          <td>¥5,500〜¥6,600</td>
+          <td><span class="time-badge">約10〜15分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>○（2〜12名）</td>
+          <td>月曜</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>チェルト ホノボーノ</strong></td>
+          <td>薪窯イタリアン</td>
+          <td>¥3,000〜¥3,999</td>
+          <td><span class="time-badge">約20〜25分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>なし</td>
+          <td>なし</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>小田原おでん本店</strong></td>
+          <td>おでん専門</td>
+          <td>¥990〜¥7,500</td>
+          <td><span class="time-badge">約35〜45分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>○（茶室）</td>
+          <td>月曜</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>だるま料理店</strong></td>
+          <td>日本料理（老舗）</td>
+          <td>¥5,000〜</td>
+          <td><span class="time-badge">約35〜45分</span></td>
+          <td class="pet-no">❓ 不明</td>
+          <td>○（座敷）</td>
+          <td>水曜</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:16px; padding:14px 16px; background:var(--pet-bg); border:1px solid var(--pet-border); border-radius:3px; font-size:12px; color:#6b5000;">
+    🐾 <strong>ペット同伴の場合：</strong>確実なのはヒルトン小田原「ブラッセリー フローラ」のテラス席のみ。他の店舗は事前に電話で確認することをおすすめします。
+  </div>
+</div>
+
+<footer>
+  <p>情報は2025年5月時点。価格・営業時間は変更になる場合があります。来店前に各店舗へご確認ください。</p>
+  <p style="margin-top:6px;">所要時間は秦野市堀西978-11からの平常時の目安です（渋滞時は大幅に変動します）。</p>
+</footer>
+
+</body>
+</html>
